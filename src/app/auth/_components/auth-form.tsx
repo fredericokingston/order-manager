@@ -12,14 +12,11 @@ import { toast } from "@/components/ui/use-toast";
 interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function LoginForm({ className, ...props }: LoginFormProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
-
   const form = useForm();
 
   const handleSubmit = form.handleSubmit(async (data) => {
-    setIsLoading(true);
     try {
-      await signIn("email", {
+      await signIn("nodemailer", {
         email: data.email,
         redirect: false,
       });
@@ -32,8 +29,6 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
         title: "Error",
         description: "An error occurred sending the magic link.",
       });
-    } finally {
-      setIsLoading(false);
     }
   });
 
@@ -58,12 +53,12 @@ export function LoginForm({ className, ...props }: LoginFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading}
+              disabled={form.formState.isSubmitting}
               {...form.register("email", { required: true })}
             />
           </div>
-          <Button disabled={isLoading}>
-            {isLoading ? "Sending..." : "Send a magic link"}
+          <Button disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting ? "Sending..." : "Send a magic link"}
           </Button>
         </div>
       </form>
