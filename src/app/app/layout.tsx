@@ -2,7 +2,7 @@ import "@/app/globals.css";
 import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
-import { Toaster } from "@/components/ui/toaster";
+import Link from "next/link";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -19,12 +19,20 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head />
       <body
         className={cn(
-          "flex flex-col min-h-screen font-sans antialiased",
+          "grid grid-cols-[260px_1fr] min-h-screen font-sans antialiased",
           fontSans.variable
         )}
       >
+        <aside className="flex flex-col gap-6 px-4 py-6">
+          <nav>
+            <ul>
+              <li>
+                <Link href="/app">Dashboard</Link>
+              </li>
+            </ul>
+          </nav>
+        </aside>
         {children}
-        <Toaster />
       </body>
     </html>
   );
